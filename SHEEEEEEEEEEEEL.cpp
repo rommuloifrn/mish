@@ -5,17 +5,33 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void process_command(std::string command) {
-
-    stringstream ss(command);
-
+string mish_command(string input) {
+    stringstream ss(input);
     string word; vector<string> vec;
+    ss >> word;
+
+    return word;
+}
+
+vector<string> mish_args(string input) {
+    stringstream ss(input);
+    string word; vector<string> vec;
+
     while (ss >> word)
         vec.push_back(word);
-    // palavras agora estao no vetor na mesma ordem que estavam na string
+
+    vec.erase(vec.begin());
+    return vec;
+}
+
+void process_command(std::string input) {
+
+    string command = mish_command(input);
+    vector<string> args = mish_args(input);
+    
     
     // tratamento de comando em background
-    if (vec.back() == "&")
+    if (args.back() == "&")
         cout << "ximbas!";
 
     // Se for comando interno...
