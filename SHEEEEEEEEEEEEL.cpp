@@ -2,10 +2,27 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+#include <bits/stdc++.h>
+using namespace std;
+
 void process_command(std::string command) {
+
+    stringstream ss(command);
+
+    string word; vector<string> vec;
+    while (ss >> word)
+        vec.push_back(word);
+    // palavras agora estao no vetor na mesma ordem que estavam na string
+    
+    // tratamento de comando em background
+    if (vec.back() == "&")
+        cout << "ximbas!";
+
     // Se for comando interno...
     if (command == "exit")
         exit(0);
+
+    
 
     // Se for comando externo
 
@@ -13,7 +30,8 @@ void process_command(std::string command) {
     /*  Se for caminho relativo, procurar o comando na lista de diretórios
         Se for absoluto verifica se comando existe
     */
-    std::string absolute_path = "/bin/" + command; 
+    std::string absolute_path = "/bin/" + command;
+
     if (access(absolute_path.c_str(), F_OK) == 0) { // Arquivo existe no diretório
         if (access(absolute_path.c_str(), X_OK) == 0) { // Arquivo é executável
             pid_t pid = fork();
@@ -39,7 +57,7 @@ void process_command(std::string command) {
 
 int main() {
     while (true) {
-        std::cout << "$> ";
+        std::cout << "$ "; // printa o prompt "$"
         std::string command;
         getline(std::cin, command);
         process_command(command);
